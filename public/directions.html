@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elevate Studio — Visual Directions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:wght@400;500;600&family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; line-height: 1.5; }
+    a { text-decoration: none; color: inherit; }
+
+    .dir-chip {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 10px clamp(24px, 5vw, 80px);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      border-bottom: 1px solid;
+      opacity: 0.18;
+      z-index: 10;
+    }
+
+    /* ───────────────────────────────────────────────────
+       DIRECTION A — LIGHT CONSULTANCY
+       Fraunces italic display + Instrument Sans
+       Warm off-white · Forest green · Generous space
+    ─────────────────────────────────────────────────── */
+
+    .dir-a {
+      position: relative;
+      min-height: 100vh;
+      background: oklch(96.5% 0.012 82);
+      color: oklch(22% 0.022 82);
+      font-family: "Instrument Sans", sans-serif;
+      display: flex;
+      flex-direction: column;
+      padding: 0 clamp(24px, 5.5vw, 88px);
+      border-bottom: 1px solid oklch(88% 0.018 82);
+    }
+
+    .dir-a-nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .dir-a-logo {
+      font-family: "Fraunces", serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      font-style: italic;
+      color: oklch(26% 0.025 82);
+    }
+
+    .dir-a-nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: oklch(34% 0.09 155);
+      border-bottom: 1px solid oklch(64% 0.12 155);
+      padding-bottom: 1px;
+      letter-spacing: 0.01em;
+    }
+
+    .dir-a-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: clamp(56px, 9vh, 100px);
+      padding-top: 32px;
+    }
+
+    .dir-a-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: oklch(54% 0.018 82);
+      font-weight: 500;
+      margin-bottom: clamp(28px, 4.5vh, 56px);
+    }
+
+    .dir-a-headline {
+      font-family: "Fraunces", serif;
+      font-size: clamp(54px, 7.8vw, 118px);
+      font-weight: 500;
+      font-style: italic;
+      line-height: 1.0;
+      letter-spacing: -0.035em;
+      color: oklch(18% 0.028 82);
+      margin-bottom: clamp(44px, 6vh, 72px);
+      max-width: 13ch;
+    }
+
+    .dir-a-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .dir-a-subtext {
+      font-size: clamp(15px, 1.5vw, 18px);
+      line-height: 1.7;
+      color: oklch(46% 0.016 82);
+      max-width: 44ch;
+      font-weight: 400;
+    }
+
+    .dir-a-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 14px 30px;
+      background: oklch(30% 0.09 155);
+      color: oklch(96.5% 0.012 82);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ───────────────────────────────────────────────────
+       DIRECTION B — EDITORIAL BOLD
+       Playfair Display + Plus Jakarta Sans
+       Near-white · Terracotta · Magazine structure
+    ─────────────────────────────────────────────────── */
+
+    .dir-b {
+      position: relative;
+      min-height: 100vh;
+      background: oklch(99% 0.006 68);
+      color: oklch(14% 0.014 68);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dir-b-header {
+      padding: 0 clamp(24px, 5.5vw, 88px);
+      flex-shrink: 0;
+    }
+
+    .dir-b-topbar {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid oklch(86% 0.01 68);
+    }
+
+    .dir-b-logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: oklch(14% 0.014 68);
+    }
+
+    .dir-b-services {
+      display: flex;
+      gap: 24px;
+    }
+
+    .dir-b-service-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: oklch(60% 0.012 68);
+    }
+
+    .dir-b-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1px auto;
+      grid-template-rows: 1fr auto;
+      padding: clamp(48px, 7vh, 96px) clamp(24px, 5.5vw, 88px) clamp(56px, 8vh, 96px);
+      gap: 0;
+      column-gap: clamp(32px, 4vw, 64px);
+    }
+
+    .dir-b-headline-col {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .dir-b-kicker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0;
+    }
+
+    .dir-b-kicker-line {
+      width: 32px;
+      height: 1px;
+      background: oklch(52% 0.15 38);
+    }
+
+    .dir-b-kicker-text {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: oklch(52% 0.15 38);
+      font-weight: 700;
+    }
+
+    .dir-b-headline {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(50px, 7.2vw, 110px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      color: oklch(12% 0.015 68);
+      margin-top: 28px;
+    }
+
+    .dir-b-divider-col {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      background: oklch(88% 0.01 68);
+      margin: 0;
+    }
+
+    .dir-b-right-col {
+      grid-column: 3;
+      grid-row: 1 / 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: clamp(200px, 22vw, 320px);
+    }
+
+    .dir-b-location {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: oklch(68% 0.01 68);
+      font-weight: 500;
+      align-self: flex-end;
+    }
+
+    .dir-b-right-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .dir-b-subtext {
+      font-size: clamp(13px, 1.2vw, 15px);
+      line-height: 1.7;
+      color: oklch(44% 0.012 68);
+      font-weight: 300;
+    }
+
+    .dir-b-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 20px;
+      background: oklch(52% 0.15 38);
+      color: oklch(99% 0.005 68);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 0;
+      white-space: nowrap;
+    }
+
+    .dir-b-cta-arrow {
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    /* year badge */
+    .dir-b-year {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(80px, 12vw, 180px);
+      font-weight: 900;
+      line-height: 1;
+      color: oklch(94% 0.008 68);
+      letter-spacing: -0.04em;
+      align-self: flex-start;
+      user-select: none;
+      line-height: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── DIRECTION A ────────────────────────────────────── -->
+<section class="dir-a">
+  <div class="dir-chip" style="font-family: 'Instrument Sans', sans-serif; color: oklch(22% 0.022 82);">Direction A — Light Consultancy</div>
+
+  <nav class="dir-a-nav">
+    <span class="dir-a-logo">Elevate Studio</span>
+    <a href="#" class="dir-a-nav-link">Schedule a Call →</a>
+  </nav>
+
+  <div class="dir-a-body">
+    <p class="dir-a-eyebrow">Ulaanbaatar, Mongolia &nbsp;·&nbsp; 2019 —</p>
+
+    <h1 class="dir-a-headline">
+      AI болон<br>
+      дижитал<br>
+      бүтээгч<br>
+      дизайны<br>
+      студио
+    </h1>
+
+    <div class="dir-a-bottom">
+      <p class="dir-a-subtext">
+        We partner with teams building AI products,<br>
+        SaaS platforms, and digital experiences<br>
+        that are truly worth building.
+      </p>
+      <a href="#" class="dir-a-cta">Schedule a Call →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DIRECTION B ────────────────────────────────────── -->
+<section class="dir-b">
+  <div class="dir-chip" style="font-family: 'Plus Jakarta Sans', sans-serif; color: oklch(14% 0.014 68);">Direction B — Editorial Bold</div>
+
+  <header class="dir-b-header">
+    <div class="dir-b-topbar">
+      <span class="dir-b-logo">Elevate Studio</span>
+      <div class="dir-b-services">
+        <span class="dir-b-service-tag">UX/UI</span>
+        <span class="dir-b-service-tag">Product Design</span>
+        <span class="dir-b-service-tag">Web Sprint</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="dir-b-content">
+
+    <div class="dir-b-headline-col">
+      <div>
+        <div class="dir-b-kicker">
+          <div class="dir-b-kicker-line"></div>
+          <span class="dir-b-kicker-text">Product Design Studio</span>
+        </div>
+        <h1 class="dir-b-headline">
+          AI болон<br>
+          дижитал<br>
+          бүтээгч<br>
+          дизайны<br>
+          студио
+        </h1>
+      </div>
+      <div class="dir-b-year">2019</div>
+    </div>
+
+    <div class="dir-b-divider-col"></div>
+
+    <div class="dir-b-right-col">
+      <span class="dir-b-location">Ulaanbaatar, Mongolia</span>
+
+      <div class="dir-b-right-bottom">
+        <p class="dir-b-subtext">
+          We partner with teams building AI products, SaaS platforms, and digital experiences that are truly worth building.
+        </p>
+        <a href="#" class="dir-b-cta">
+          Schedule a Call
+          <span class="dir-b-cta-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </main>
+</section>
+
+</body>
+</html>
