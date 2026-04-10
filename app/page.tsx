@@ -1,6 +1,112 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, createContext, useContext } from "react";
+
+// ─── EDIT MODE ────────────────────────────────────────────────────────────────
+
+const STORAGE_KEY = "elevate-edits";
+type Store = Record<string, string>;
+
+const EditCtx = createContext<{
+  editing: boolean;
+  get: (id: string, fallback: string) => string;
+  set: (id: string, val: string) => void;
+  store: Store;
+}>({ editing: false, get: (_, fb) => fb, set: () => {}, store: {} });
+
+function EditProvider({ children }: { children: React.ReactNode }) {
+  const [editing, setEditing] = useState(false);
+  const [store, setStore] = useState<Store>({});
+
+  useEffect(() => {
+    setEditing(new URLSearchParams(window.location.search).has("edit"));
+    try { setStore(JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}")); } catch {}
+  }, []);
+
+  const set = (id: string, val: string) =>
+    setStore(prev => {
+      const next = { ...prev, [id]: val };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+
+  const get = (id: string, fallback: string) => store[id] ?? fallback;
+
+  return (
+    <EditCtx.Provider value={{ editing, get, set, store }}>
+      {children}
+      {editing && <EditToolbar store={store} />}
+    </EditCtx.Provider>
+  );
+}
+
+function EditToolbar({ store }: { store: Store }) {
+  const [copied, setCopied] = useState(false);
+  const changed = Object.keys(store).length;
+  const copy = () => {
+    navigator.clipboard.writeText(JSON.stringify(store, null, 2));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <div style={{
+      position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)",
+      background: "#111110", color: "#f5f4f0", borderRadius: 100,
+      display: "flex", alignItems: "center", gap: 12, padding: "10px 10px 10px 20px",
+      zIndex: 9999, fontSize: 13, fontWeight: 500,
+      boxShadow: "0 8px 40px rgba(0,0,0,0.35)",
+      whiteSpace: "nowrap",
+    }}>
+      <span style={{ color: "#b8f542" }}>● Edit Mode</span>
+      {changed > 0 && <span style={{ color: "rgba(245,244,240,0.4)" }}>{changed} change{changed !== 1 ? "s" : ""}</span>}
+      <button onClick={copy} style={{
+        background: "#b8f542", border: "none", color: "#111110",
+        padding: "7px 16px", borderRadius: 100, cursor: "pointer", fontSize: 13, fontWeight: 600,
+      }}>{copied ? "Copied!" : "Copy Changes"}</button>
+      <button onClick={() => { localStorage.removeItem(STORAGE_KEY); window.location.reload(); }} style={{
+        background: "rgba(255,255,255,0.08)", border: "none", color: "rgba(245,244,240,0.5)",
+        padding: "7px 14px", borderRadius: 100, cursor: "pointer", fontSize: 12,
+      }}>Reset</button>
+    </div>
+  );
+}
+
+// Editable text — transparent when not editing, inline contenteditable when editing
+function ET({ id, children, block }: { id: string; children: string; block?: boolean }) {
+  const { editing, get, set } = useContext(EditCtx);
+  const val = get(id, children);
+  if (!editing) return <>{val}</>;
+  const Tag = block ? "div" : "span";
+  return (
+    <Tag
+      contentEditable
+      suppressContentEditableWarning
+      style={{ outline: "none", cursor: "text", borderRadius: 3, boxShadow: "0 0 0 2px #b8f542" }}
+      onBlur={e => set(id, e.currentTarget.textContent || "")}
+      dangerouslySetInnerHTML={{ __html: val }}
+    />
+  );
+}
+
+// Editable image — click to swap file when editing
+function EI({ id, src, alt, style }: { id: string; src: string; alt: string; style?: React.CSSProperties }) {
+  const { editing, get, set } = useContext(EditCtx);
+  const val = get(id, src);
+  const inp = useRef<HTMLInputElement>(null);
+  if (!editing) return <img src={val} alt={alt} style={style} />;
+  return (
+    <div style={{ position: "relative", cursor: "pointer" }} onClick={() => inp.current?.click()}>
+      <img src={val} alt={alt} style={{ ...style, opacity: 0.75 }} />
+      <div style={{
+        position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+        background: "rgba(0,0,0,0.35)", color: "#fff", fontSize: 11, fontWeight: 600,
+        letterSpacing: "0.08em", textTransform: "uppercase", borderRadius: "inherit",
+      }}>Replace</div>
+      <input ref={inp} type="file" accept="image/*" style={{ display: "none" }}
+        onChange={e => { const f = e.target.files?.[0]; if (f) set(id, URL.createObjectURL(f)); }} />
+    </div>
+  );
+}
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -231,7 +337,7 @@ function Nav() {
             {/* Nav links */}
             <div className="menu-links" style={{
               flex: 1, display: "flex", flexDirection: "column", justifyContent: "center",
-              padding: "60px 28px 24px", gap: 6,
+              padding: "32px 28px 24px", gap: 6,
             }}>
               {links.map(l => (
                 <a
@@ -307,13 +413,13 @@ function Hero() {
           fontSize: 10.5, color: "rgba(17,17,16,0.38)",
           letterSpacing: "0.16em", textTransform: "uppercase", fontWeight: 500,
         }}>
-          Ulaanbaatar, Mongolia · Est. 2023
+          <ET id="hero-meta-left">Ulaanbaatar, Mongolia · Est. 2023</ET>
         </span>
         <span style={{
           fontSize: 10.5, color: "rgba(17,17,16,0.38)",
           letterSpacing: "0.16em", textTransform: "uppercase", fontWeight: 500,
         }}>
-          Product Design Studio
+          <ET id="hero-meta-right">Product Design Studio</ET>
         </span>
       </div>
 
@@ -330,17 +436,14 @@ function Hero() {
           letterSpacing: "-0.045em",
           color: "var(--text)",
         }}>
-          {/* Line 1 — light weight, creates tension */}
           <span style={{ display: "block", fontWeight: 300 }}>
-            AI болон дижитал
+            <ET id="hero-1">AI болон дижитал</ET>
           </span>
-          {/* Line 2 — bold, anchors */}
           <span style={{ display: "block", fontWeight: 700 }}>
-            бүтээгч дизайны
+            <ET id="hero-2">бүтээгч дизайны</ET>
           </span>
-          {/* Line 3 — bold + lime accent dot */}
           <span style={{ display: "block", fontWeight: 700 }}>
-            студио
+            <ET id="hero-3">студио</ET>
             <span style={{
               display: "inline-block",
               width: "0.12em", height: "0.12em",
@@ -393,7 +496,7 @@ function Hero() {
               letterSpacing: "-0.01em",
             }}
           >
-            Уулзалт товлох →
+            <ET id="hero-cta">Уулзалт товлох →</ET>
           </a>
 
         </div>
@@ -412,10 +515,9 @@ function Statement() {
         fontWeight: 400, lineHeight: 1.35,
         letterSpacing: "-0.025em", color: "var(--text)", maxWidth: 900,
       }}>
-        Бид хэвшмэл ойлголтоос цааш харж, бүтээж буй зүйлдээ утга болон
-        мөн чанарыг тэргүүлж,{" "}
+        <ET id="statement-1">Бид хэвшмэл ойлголтоос цааш харж, бүтээж буй зүйлдээ утга болон мөн чанарыг тэргүүлж,</ET>{" "}
         <span style={{ color: "var(--muted)" }}>
-          агуулгад анхаарлаа хандуулдаг багуудтай хамтардаг.
+          <ET id="statement-2">агуулгад анхаарлаа хандуулдаг багуудтай хамтардаг.</ET>
         </span>
       </p>
     </section>
@@ -440,10 +542,10 @@ function TrustedBy() {
             maxWidth: 560,
             marginBottom: 16,
           }}>
-            Манай багийн гишүүдийн ажилласан байгууллагууд
+            <ET id="trusted-title">Манай багийн гишүүдийн ажилласан байгууллагууд</ET>
           </h2>
           <p style={{ fontSize: 14, color: "var(--muted)", lineHeight: 1.75 }}>
-            Олон салбарт хэрэгжсэн 40+ төсөл, 6 жилийн туршлага.
+            <ET id="trusted-sub">Олон салбарт хэрэгжсэн 40+ төсөл, 6 жилийн туршлага.</ET>
           </p>
         </div>
         <div style={{
@@ -489,7 +591,7 @@ function Projects() {
     <section id="projects" style={{ borderTop: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 64 }}>
-          <SectionLabel>Selected Work</SectionLabel>
+          <SectionLabel id="sl-projects">Selected Work</SectionLabel>
           <span style={{ fontSize: 11, color: "var(--muted)", letterSpacing: "0.1em", fontWeight: 500 }}>
             0{projects.length} Projects
           </span>
@@ -505,24 +607,24 @@ function Projects() {
                 </span>
                 <span style={{ width: 1, height: 12, backgroundColor: "var(--border)" }} />
                 <span style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 500 }}>
-                  {p.category}
+                  <ET id={`project-cat-${i}`}>{p.category}</ET>
                 </span>
               </div>
               <h3 style={{ fontSize: "clamp(32px,4vw,56px)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.0, color: "var(--text)", marginBottom: 20 }}>
-                {p.name}
+                <ET id={`project-name-${i}`}>{p.name}</ET>
               </h3>
               <p style={{ color: "var(--muted)", fontSize: 14, lineHeight: 1.75, maxWidth: 360 }}>
-                {p.description}
+                <ET id={`project-desc-${i}`}>{p.description}</ET>
               </p>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 28, fontSize: 13, fontWeight: 500, color: "var(--text)" }}>
-                Case study →
+                <ET id={`project-cta-${i}`}>Case study →</ET>
               </span>
             </div>
             <div style={{
               aspectRatio: "4/3", backgroundColor: "var(--surface)",
               borderRadius: 16, overflow: "hidden", border: "1px solid var(--border)",
             }}>
-              <img src={`https://picsum.photos/seed/${p.name.toLowerCase()}/800/600`} alt={p.name}
+              <EI id={`project-img-${p.name.toLowerCase()}`} src={`https://picsum.photos/seed/${p.name.toLowerCase()}/800/600`} alt={p.name}
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
           </a>
@@ -541,12 +643,12 @@ function Services() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 80, alignItems: "start" }}>
           <div style={{ position: "sticky", top: 80 }}>
-            <SectionLabel>Services</SectionLabel>
+            <SectionLabel id="sl-services">Services</SectionLabel>
             <p style={{ marginTop: 20, fontSize: "clamp(24px,3vw,40px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--text)" }}>
-              Юу хийдэг вэ
+              <ET id="services-title">Юу хийдэг вэ</ET>
             </p>
             <p style={{ marginTop: 16, fontSize: 14, color: "var(--muted)", lineHeight: 1.75, maxWidth: 220 }}>
-              Стратегиас эхлэн хүргэлт хүртэл бүрэн хамрах үйлчилгээ.
+              <ET id="services-sub">Стратегиас эхлэн хүргэлт хүртэл бүрэн хамрах үйлчилгээ.</ET>
             </p>
           </div>
           <div>
@@ -558,12 +660,12 @@ function Services() {
                 alignItems: "start",
               }}>
                 <h3 style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-0.025em", color: "var(--text)", lineHeight: 1.2 }}>
-                  {s.title}
+                  <ET id={`service-title-${i}`}>{s.title}</ET>
                 </h3>
                 <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
-                  {s.items.map(item => (
+                  {s.items.map((item, j) => (
                     <li key={item} style={{ fontSize: 14, color: "var(--muted)", letterSpacing: "-0.005em" }}>
-                      — {item}
+                      — <ET id={`service-item-${i}-${j}`}>{item}</ET>
                     </li>
                   ))}
                 </ul>
@@ -583,9 +685,9 @@ function Principles() {
     <section id="principles" style={{ borderTop: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 64 }}>
-          <SectionLabel>How We Think</SectionLabel>
+          <SectionLabel id="sl-principles">How We Think</SectionLabel>
         </div>
-        {principles.map((p) => (
+        {principles.map((p, i) => (
           <div key={p.number} style={{
             display: "grid", gridTemplateColumns: "80px 1fr",
             gap: 40, padding: "40px 0", borderTop: "1px solid var(--border)", alignItems: "start",
@@ -595,9 +697,9 @@ function Principles() {
             </span>
             <div>
               <p style={{ fontSize: "clamp(24px,3vw,40px)", fontWeight: 600, letterSpacing: "-0.03em", color: "var(--text)", lineHeight: 1.15 }}>
-                {p.mn}
+                <ET id={`principle-mn-${i}`}>{p.mn}</ET>
               </p>
-              <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 10, letterSpacing: "0.01em" }}>{p.en}</p>
+              <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 10, letterSpacing: "0.01em" }}><ET id={`principle-en-${i}`}>{p.en}</ET></p>
             </div>
           </div>
         ))}
@@ -614,8 +716,8 @@ function Team() {
     <section style={{ borderTop: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 64 }}>
-          <SectionLabel>The Team</SectionLabel>
-          <span style={{ fontSize: 13, color: "var(--muted)" }}>Ulaanbaatar, Mongolia</span>
+          <SectionLabel id="sl-team">The Team</SectionLabel>
+          <span style={{ fontSize: 13, color: "var(--muted)" }}><ET id="team-location">Ulaanbaatar, Mongolia</ET></span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
           {team.map((member, i) => (
@@ -624,11 +726,11 @@ function Team() {
                 aspectRatio: "3/4", backgroundColor: "var(--surface)",
                 borderRadius: 12, overflow: "hidden", border: "1px solid var(--border)", marginBottom: 16,
               }}>
-                <img src={`https://picsum.photos/seed/team${i}/600/800`} alt={member.name}
+                <EI id={`team-img-${i}`} src={`https://picsum.photos/seed/team${i}/600/800`} alt={member.name}
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
-              <p style={{ fontWeight: 600, fontSize: 16, color: "var(--text)", letterSpacing: "-0.02em" }}>{member.name}</p>
-              <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}>{member.role}</p>
+              <p style={{ fontWeight: 600, fontSize: 16, color: "var(--text)", letterSpacing: "-0.02em" }}><ET id={`team-name-${i}`}>{member.name}</ET></p>
+              <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}><ET id={`team-role-${i}`}>{member.role}</ET></p>
             </div>
           ))}
         </div>
@@ -645,24 +747,26 @@ function Pricing() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 64, gap: 40 }}>
           <div>
-            <SectionLabel>Pricing</SectionLabel>
-            <p style={{ marginTop: 12, fontSize: "clamp(24px,3vw,40px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--text)" }}>
-              Тодорхой үр дүнд<br />чиглэсэн үнэ
-            </p>
+            <SectionLabel id="sl-pricing">Pricing</SectionLabel>
+            <div style={{ marginTop: 12, fontSize: "clamp(24px,3vw,40px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--text)" }}>
+              <ET id="pricing-title">Тодорхой үр дүнд чиглэсэн үнэ</ET>
+            </div>
           </div>
           <p style={{ fontSize: 14, color: "var(--muted)", maxWidth: 280, textAlign: "right", lineHeight: 1.75 }}>
-            Нэмэлт зардал байхгүй. Эхний уулзалт үнэгүй.
+            <ET id="pricing-sub">Нэмэлт зардал байхгүй. Эхний уулзалт үнэгүй.</ET>
           </p>
         </div>
 
         {/* Table header */}
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 140px", gap: 24, padding: "12px 0 16px", borderBottom: "1px solid var(--border)" }}>
-          {["Багц", "Хугацаа", "Үнэ", ""].map(h => (
-            <span key={h} style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em" }}>{h}</span>
+          {["Багц", "Хугацаа", "Үнэ", ""].map((h, i) => (
+            <span key={i} style={{ fontSize: 11, color: "var(--muted)", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em" }}>
+              {h ? <ET id={`pricing-col-${i}`}>{h}</ET> : ""}
+            </span>
           ))}
         </div>
 
-        {pricing.map((plan) => (
+        {pricing.map((plan, i) => (
           <div key={plan.name} className="pricing-row" style={{
             display: "grid", gridTemplateColumns: "2fr 1fr 1fr 140px",
             gap: 24, padding: "28px 0", borderBottom: "1px solid var(--border)", alignItems: "center",
@@ -672,17 +776,17 @@ function Pricing() {
                 {plan.highlight && (
                   <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "var(--accent)", flexShrink: 0, display: "inline-block" }} />
                 )}
-                <p style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-0.025em", color: "var(--text)" }}>{plan.name}</p>
+                <p style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-0.025em", color: "var(--text)" }}><ET id={`price-name-${i}`}>{plan.name}</ET></p>
               </div>
               <p style={{ fontSize: 13, color: "var(--muted)", marginTop: 5, paddingLeft: plan.highlight ? 17 : 0 }}>
-                {plan.features.slice(0, 2).join(" · ")}
+                <ET id={`price-feat-${i}`}>{plan.features.slice(0, 2).join(" · ")}</ET>
               </p>
             </div>
-            <span style={{ fontSize: 14, color: "var(--muted)" }}>{plan.duration}</span>
-            <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.03em", color: "var(--text)" }}>{plan.price}</span>
+            <span style={{ fontSize: 14, color: "var(--muted)" }}><ET id={`price-dur-${i}`}>{plan.duration}</ET></span>
+            <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.03em", color: "var(--text)" }}><ET id={`price-price-${i}`}>{plan.price}</ET></span>
             <a href="https://cal.com/elevatestd/30min" target="_blank" rel="noopener noreferrer" className="pricing-btn"
               style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "10px 20px", border: "1px solid var(--border)", borderRadius: 100, fontSize: 13, fontWeight: 500, color: "var(--text)", backgroundColor: "transparent", whiteSpace: "nowrap" }}>
-              Эхлэх →
+              <ET id={`price-cta-${i}`}>Эхлэх →</ET>
             </a>
           </div>
         ))}
@@ -701,9 +805,9 @@ function FAQ() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 80 }}>
           <div>
-            <SectionLabel>FAQ</SectionLabel>
+            <SectionLabel id="sl-faq">FAQ</SectionLabel>
             <p style={{ marginTop: 20, fontSize: "clamp(24px,3vw,40px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--text)" }}>
-              Түгээмэл асуулт
+              <ET id="faq-title">Түгээмэл асуулт</ET>
             </p>
           </div>
           <div>
@@ -711,11 +815,11 @@ function FAQ() {
               <div key={i} style={{ borderBottom: "1px solid var(--border)" }}>
                 <button onClick={() => setOpenIdx(openIdx === i ? null : i)}
                   style={{ width: "100%", textAlign: "left", padding: "24px 0", background: "none", border: "none", color: "var(--text)", fontSize: 16, fontWeight: 500, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, letterSpacing: "-0.015em" }}>
-                  {faq.q}
+                  <ET id={`faq-q-${i}`}>{faq.q}</ET>
                   <span style={{ color: "var(--muted)", fontSize: 20, flexShrink: 0, transition: "transform 0.25s ease", transform: openIdx === i ? "rotate(45deg)" : "rotate(0deg)", lineHeight: 1 }}>+</span>
                 </button>
                 <div className={`faq-answer ${openIdx === i ? "open" : "closed"}`}>
-                  <p style={{ color: "var(--muted)", fontSize: 14, lineHeight: 1.85, paddingBottom: 24 }}>{faq.a}</p>
+                  <p style={{ color: "var(--muted)", fontSize: 14, lineHeight: 1.85, paddingBottom: 24 }}><ET id={`faq-a-${i}`}>{faq.a}</ET></p>
                 </div>
               </div>
             ))}
@@ -734,26 +838,26 @@ function Contact() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "end" }}>
           <div>
-            <SectionLabel>Get in touch</SectionLabel>
+            <SectionLabel id="sl-contact">Get in touch</SectionLabel>
             <h2 style={{
               fontSize: "clamp(56px,8vw,112px)", fontWeight: 700,
               letterSpacing: "-0.045em", lineHeight: 0.95, color: "var(--text)", marginTop: 28,
             }}>
-              Хамтран<br />ажиллацгаая.
+              <ET id="contact-headline">Хамтран ажиллацгаая.</ET>
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 28, paddingBottom: 8 }}>
             <p style={{ fontSize: 15, color: "var(--muted)", lineHeight: 1.85, maxWidth: 340 }}>
-              Cal.com дээр нээлттэй цагийг сонгоно уу. Zoom эсвэл Google Meet-ээр уулзана. Эхний уулзалт үнэгүй.
+              <ET id="contact-sub">Cal.com дээр нээлттэй цагийг сонгоно уу. Zoom эсвэл Google Meet-ээр уулзана. Эхний уулзалт үнэгүй.</ET>
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <a href="https://cal.com/elevatestd/30min" target="_blank" rel="noopener noreferrer" className="contact-cta"
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 28px", backgroundColor: "var(--text)", color: "#ffffff", borderRadius: 100, fontWeight: 600, fontSize: 14 }}>
-                30 минутын уулзалт →
+                <ET id="contact-cta-1">30 минутын уулзалт →</ET>
               </a>
               <a href="mailto:hello@elevatestudio.xyz" className="contact-cta"
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "14px 28px", backgroundColor: "transparent", color: "var(--text)", borderRadius: 100, fontWeight: 500, fontSize: 14, border: "1px solid var(--border)" }}>
-                Имэйл бичих
+                <ET id="contact-cta-2">Имэйл бичих</ET>
               </a>
             </div>
           </div>
@@ -776,14 +880,14 @@ function Footer() {
             { label: "Үйлчилгээ", href: "#services" },
             { label: "Үнэ", href: "#pricing" },
             { label: "Instagram", href: "https://instagram.com" },
-          ].map(l => (
+          ].map((l, i) => (
             <a key={l.label} href={l.href} className="footer-link" style={{ fontSize: 13, color: "var(--muted)" }}>
-              {l.label}
+              <ET id={`footer-link-${i}`}>{l.label}</ET>
             </a>
           ))}
         </div>
         <span style={{ fontSize: 12, color: "var(--muted)", letterSpacing: "0.01em" }}>
-          © {new Date().getFullYear()} Elevate Studio
+          <ET id="footer-copy">{`© ${new Date().getFullYear()} Elevate Studio`}</ET>
         </span>
       </div>
     </footer>
@@ -792,7 +896,7 @@ function Footer() {
 
 // ─── HELPER ──────────────────────────────────────────────────────────────────
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function SectionLabel({ children, id }: { children: string; id?: string }) {
   return (
     <p
       style={{
@@ -803,7 +907,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
         fontWeight: 500,
       }}
     >
-      {children}
+      {id ? <ET id={id}>{children}</ET> : children}
     </p>
   );
 }
@@ -812,7 +916,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export default function Home() {
   return (
-    <>
+    <EditProvider>
       <Nav />
       <main>
         <Hero />
@@ -827,6 +931,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </EditProvider>
   );
 }

@@ -30,7 +30,7 @@ const css = `
   button { font-family: inherit; }
   ::selection { background: var(--accent); color: var(--accent-text); }
   nav a { transition: color 0.2s ease; }
-  nav a:hover { color: var(--text) !important; }
+  nav a:not(.menu-nav-link):not(.menu-resource-link):hover { color: var(--text) !important; }
   .nav-cta {
     transition: background 0.2s ease, transform 0.15s ease !important;
   }
@@ -172,11 +172,14 @@ const css = `
     letter-spacing: -0.03em;
     line-height: 1.2;
     color: #f5f4f0;
-    transition: opacity 0.15s ease;
+    filter: blur(4px);
+    transition: opacity 0.15s ease, filter 0.4s cubic-bezier(0.16,1,0.3,1);
   }
-  /* Dim all, highlight hovered */
-  .menu-links:hover .menu-nav-link { opacity: 0.35; }
-  .menu-links:hover .menu-nav-link:hover { opacity: 1; }
+  .menu-overlay.open .menu-nav-link {
+    filter: blur(0px);
+  }
+  /* Dim others, keep hovered full */
+  .menu-links:hover .menu-nav-link:not(:hover) { opacity: 0.35; }
   .menu-resource-link {
     display: block;
     font-size: 12px; color: rgba(245,244,240,0.35);
