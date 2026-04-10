@@ -114,25 +114,29 @@ const projects = [
   {
     name: "ProhostAI",
     category: "AI · SaaS",
-    description: "YC W24 — Full product design from zero to launch.",
+    description: "Y Combinator-backed AI platform for vacation rental hosts.",
+    cta: "Case study →",
     href: "#",
   },
   {
     name: "Atlas",
-    category: "Web App",
-    description: "End-to-end UX/UI for a data-driven platform.",
+    category: "MOBIlE App",
+    description: "AI coach for intentional living.",
+    cta: "Дэлгэрэнгүй →",
     href: "#",
   },
   {
     name: "Iron Health",
-    category: "Mobile App",
-    description: "Health & wellness app — user flows to design system.",
+    category: "WEB DESIGN, BRANDING",
+    description: "Health & wellness platform.",
+    cta: "Дэлгэрэнгүй →",
     href: "#",
   },
   {
     name: "Lanndy",
     category: "Brand · Web",
-    description: "Brand identity and Framer website sprint.",
+    description: "Counter-Strike 2 server rental platform.",
+    cta: "Дэлгэрэнгүй →",
     href: "#",
   },
 ];
@@ -164,17 +168,17 @@ const principles = [
   {
     number: "01",
     mn: "Бид шийдлийг бус, асуудлыг түрүүлж хардаг",
-    en: "Problems before solutions",
+    en: "Асуудлаа бүрэн ойлгож \"Юу хийх\"-ээс урьтаж бизнест тань \"Юу чухал\"-ыг тодорхойлж шийдэл болгон хувиргадаг.",
   },
   {
     number: "02",
     mn: "Шийдвэрийг 'Би'-гээр биш, 'Дата'-гаар",
-    en: "Data over opinion",
+    en: "Хувийн бодол, албан тушаалд бус судалгаа, логик, бодит хэрэглээнд тулгуурлан шийддэг.",
   },
   {
     number: "03",
     mn: "Бид зураг биш, систем бүтээдэг",
-    en: "Systems, not just screens",
+    en: "Дуусгахыг биш, өсөхийг чухалчилна. Бүтээгдэхүүн цаг хугацаатай хамт хувьсан өөрчлөгдөхөд нурахгүй байх бат бөх суурийг тавьдаг.",
   },
 ];
 
@@ -413,7 +417,7 @@ function Hero() {
           fontSize: 10.5, color: "rgba(17,17,16,0.38)",
           letterSpacing: "0.16em", textTransform: "uppercase", fontWeight: 500,
         }}>
-          <ET id="hero-meta-left">Ulaanbaatar, Mongolia · Est. 2023</ET>
+          <ET id="hero-meta-left">МОНГОЛ, УЛААНБААТАР</ET>
         </span>
         <span style={{
           fontSize: 10.5, color: "rgba(17,17,16,0.38)",
@@ -437,7 +441,7 @@ function Hero() {
           color: "var(--text)",
         }}>
           <span style={{ display: "block", fontWeight: 300 }}>
-            <ET id="hero-1">AI болон дижитал</ET>
+            <ET id="hero-1">AI болон дижитал бүтээгдэхүүн</ET>
           </span>
           <span style={{ display: "block", fontWeight: 700 }}>
             <ET id="hero-2">бүтээгч дизайны</ET>
@@ -591,7 +595,7 @@ function Projects() {
     <section id="projects" style={{ borderTop: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 64 }}>
-          <SectionLabel id="sl-projects">Selected Work</SectionLabel>
+          <SectionLabel id="sl-projects">ОНЦЛОХ ТӨСЛҮҮД</SectionLabel>
           <span style={{ fontSize: 11, color: "var(--muted)", letterSpacing: "0.1em", fontWeight: 500 }}>
             0{projects.length} Projects
           </span>
@@ -617,7 +621,7 @@ function Projects() {
                 <ET id={`project-desc-${i}`}>{p.description}</ET>
               </p>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 28, fontSize: 13, fontWeight: 500, color: "var(--text)" }}>
-                <ET id={`project-cta-${i}`}>Case study →</ET>
+                <ET id={`project-cta-${i}`}>{p.cta}</ET>
               </span>
             </div>
             <div style={{
@@ -643,12 +647,12 @@ function Services() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 80, alignItems: "start" }}>
           <div style={{ position: "sticky", top: 80 }}>
-            <SectionLabel id="sl-services">Services</SectionLabel>
+            <SectionLabel id="sl-services">Үйлчилгээ</SectionLabel>
             <p style={{ marginTop: 20, fontSize: "clamp(24px,3vw,40px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--text)" }}>
-              <ET id="services-title">Юу хийдэг вэ</ET>
+              <ET id="services-title">Бид юу хийдэг вэ</ET>
             </p>
             <p style={{ marginTop: 16, fontSize: 14, color: "var(--muted)", lineHeight: 1.75, maxWidth: 220 }}>
-              <ET id="services-sub">Стратегиас эхлэн хүргэлт хүртэл бүрэн хамрах үйлчилгээ.</ET>
+              <ET id="services-sub">Стратегиас эхлэн зах зээлд танилцуулагдах хүртэлх бүрэн үйлчилгээ.</ET>
             </p>
           </div>
           <div>
@@ -685,7 +689,7 @@ function Principles() {
     <section id="principles" style={{ borderTop: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 64 }}>
-          <SectionLabel id="sl-principles">How We Think</SectionLabel>
+          <SectionLabel id="sl-principles">БИДний зарчим</SectionLabel>
         </div>
         {principles.map((p, i) => (
           <div key={p.number} style={{
@@ -716,8 +720,8 @@ function Team() {
     <section style={{ borderTop: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 64 }}>
-          <SectionLabel id="sl-team">The Team</SectionLabel>
-          <span style={{ fontSize: 13, color: "var(--muted)" }}><ET id="team-location">Ulaanbaatar, Mongolia</ET></span>
+          <SectionLabel id="sl-team">Манай БАГ</SectionLabel>
+          <span style={{ fontSize: 13, color: "var(--muted)" }}><ET id="team-location"></ET></span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
           {team.map((member, i) => (
@@ -747,7 +751,7 @@ function Pricing() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px,10vw,140px) 80px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 64, gap: 40 }}>
           <div>
-            <SectionLabel id="sl-pricing">Pricing</SectionLabel>
+            <SectionLabel id="sl-pricing">үнийн санал</SectionLabel>
             <div style={{ marginTop: 12, fontSize: "clamp(24px,3vw,40px)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.1, color: "var(--text)" }}>
               <ET id="pricing-title">Тодорхой үр дүнд чиглэсэн үнэ</ET>
             </div>
@@ -843,12 +847,12 @@ function Contact() {
               fontSize: "clamp(56px,8vw,112px)", fontWeight: 700,
               letterSpacing: "-0.045em", lineHeight: 0.95, color: "var(--text)", marginTop: 28,
             }}>
-              <ET id="contact-headline">Хамтран ажиллацгаая.</ET>
+              <ET id="contact-headline">Хамтдаа утга учиртай, үр дүнтэй, дизайныг бүтээцгээе.</ET>
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 28, paddingBottom: 8 }}>
             <p style={{ fontSize: 15, color: "var(--muted)", lineHeight: 1.85, maxWidth: 340 }}>
-              <ET id="contact-sub">Cal.com дээр нээлттэй цагийг сонгоно уу. Zoom эсвэл Google Meet-ээр уулзана. Эхний уулзалт үнэгүй.</ET>
+              <ET id="contact-sub">Cal.com дээр нээлттэй цагийг сонгоно уу. Google Meet-ээр уулзана.</ET>
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <a href="https://cal.com/elevatestd/30min" target="_blank" rel="noopener noreferrer" className="contact-cta"

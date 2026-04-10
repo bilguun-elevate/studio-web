@@ -172,14 +172,12 @@ const css = `
     letter-spacing: -0.03em;
     line-height: 1.2;
     color: #f5f4f0;
-    filter: blur(4px);
-    transition: opacity 0.15s ease, filter 0.4s cubic-bezier(0.16,1,0.3,1);
+    opacity: 1;
+    transition: opacity 0.2s ease;
   }
-  .menu-overlay.open .menu-nav-link {
-    filter: blur(0px);
-  }
-  /* Dim others, keep hovered full */
-  .menu-links:hover .menu-nav-link:not(:hover) { opacity: 0.35; }
+  /* Dim all, brighten hovered */
+  .menu-links:hover .menu-nav-link { opacity: 0.35; }
+  .menu-links:hover .menu-nav-link:hover { opacity: 1; }
   .menu-resource-link {
     display: block;
     font-size: 12px; color: rgba(245,244,240,0.35);
