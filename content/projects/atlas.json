@@ -1,0 +1,25 @@
+{
+  "name": "Atlas",
+  "category": "Mobile App",
+  "tag": "",
+  "year": "2025",
+  "upcoming": false,
+  "description": "AI coaching app for a purposeful life.",
+  "cta": "See work →",
+  "tagline": "AI coaching app for a purposeful life.",
+  "overview": "Atlas is an AI-powered platform that integrates data on human goals, habits, and mindsets to systematically manage personal growth. It was built on the \"digital life coach\" concept, eliminating the need for multiple separate apps by understanding and adapting to the user's long-term life journey.",
+  "scope": ["Product Design", "Mobile UX", "Design System"],
+  "cover": "/projects/atlas/cover.jpg",
+  "media": [
+    { "type": "image", "src": "/projects/atlas/1-1.jpg",  "alt": "Atlas — 1",  "span": "full" },
+    { "type": "image", "src": "/projects/atlas/2-2.jpg",  "alt": "Atlas — 2",  "span": "half" },
+    { "type": "video", "src": "/projects/atlas/3-2.mp4",                        "span": "half" },
+    { "type": "image", "src": "/projects/atlas/4-1.jpg",  "alt": "Atlas — 4",  "span": "full" },
+    { "type": "image", "src": "/projects/atlas/5-2.jpg",  "alt": "Atlas — 5",  "span": "half" },
+    { "type": "image", "src": "/projects/atlas/6-2.jpg",  "alt": "Atlas — 6",  "span": "half" },
+    { "type": "image", "src": "/projects/atlas/7-1.jpg",  "alt": "Atlas — 7",  "span": "full" },
+    { "type": "image", "src": "/projects/atlas/8-1.jpg",  "alt": "Atlas — 8",  "span": "full" },
+    { "type": "image", "src": "/projects/atlas/9-1.jpg",  "alt": "Atlas — 9",  "span": "full" },
+    { "type": "image", "src": "/projects/atlas/10-1.jpg", "alt": "Atlas — 10", "span": "full" }
+  ]
+}

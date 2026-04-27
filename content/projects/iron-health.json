@@ -1,0 +1,26 @@
+{
+  "name": "Iron Health",
+  "category": "Web Design · Brand",
+  "tag": "",
+  "year": "2023",
+  "upcoming": false,
+  "description": "A web platform for health and wellness.",
+  "cta": "See work →",
+  "tagline": "A web platform for health and wellness.",
+  "overview": "Iron is a health wearable brand powered by AI technology. We created the brand identity and marketing website, making health technology feel accessible and reliable.",
+  "scope": ["Web Design", "Brand", "Product Design"],
+  "cover": "/projects/iron/cover.jpg",
+  "media": [
+    { "type": "image", "src": "/projects/iron/1-1.jpg",  "alt": "Iron Health — 1",  "span": "full" },
+    { "type": "image", "src": "/projects/iron/2-2.jpg",  "alt": "Iron Health — 2",  "span": "half" },
+    { "type": "video", "src": "/projects/iron/3-2.mp4",                              "span": "half" },
+    { "type": "image", "src": "/projects/iron/4-1.jpg",  "alt": "Iron Health — 4",  "span": "full" },
+    { "type": "image", "src": "/projects/iron/5-1.jpg",  "alt": "Iron Health — 5",  "span": "full" },
+    { "type": "image", "src": "/projects/iron/6-2.jpg",  "alt": "Iron Health — 6",  "span": "half" },
+    { "type": "video", "src": "/projects/iron/7-2.mp4",                              "span": "half" },
+    { "type": "image", "src": "/projects/iron/8-1.jpg",  "alt": "Iron Health — 8",  "span": "full" },
+    { "type": "image", "src": "/projects/iron/9-2.jpg",  "alt": "Iron Health — 9",  "span": "half" },
+    { "type": "image", "src": "/projects/iron/10-2.jpg", "alt": "Iron Health — 10", "span": "half" },
+    { "type": "image", "src": "/projects/iron/11-1.jpg", "alt": "Iron Health — 11", "span": "full" }
+  ]
+}

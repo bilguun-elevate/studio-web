@@ -1,0 +1,17 @@
+{
+  "name": "Lanndy",
+  "category": "Brand · Web",
+  "tag": "",
+  "description": "CS2 server rental platform.",
+  "cta": "See work →",
+  "tagline": "CS2 server rental platform.",
+  "cover": "/projects/lanndy/cover.png",
+  "year": "2024",
+  "scope": ["Brand", "Web Design"],
+  "overview": "Lanndy is the first platform in Mongolia to offer CS2 server rental services. The goal of the project was to create a web experience that delivers server services to players in a clear, reliable, and fast manner.",
+  "upcoming": false,
+  "media": [
+    { "src": "/projects/lanndy/01.png", "alt": "Lanndy — 1", "span": "half" },
+    { "src": "/projects/lanndy/02.png", "alt": "Lanndy — 2", "span": "half" }
+  ]
+}
