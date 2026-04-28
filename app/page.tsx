@@ -115,10 +115,10 @@ function EI({ id, src, alt, style }: { id: string; src: string; alt: string; sty
 // projects imported from ./data/projects.ts
 
 const services = [
-  { title: "Strategy & Research", items: ["Product strategy", "User research", "UX Audit"],               color: "#b5c7f5", bg: "/service-cards/bg-1.png" },
-  { title: "Product Design",      items: ["UX/UI design", "Prototypes", "Design systems"],                color: "#a3d8ef", bg: "/service-cards/bg-2.png", illus: "/service-cards/illus-4.svg" },
-  { title: "Brand & Web",         items: ["Web design", "Framer, Claude development", "Visual identity"],  color: "#d3f1d9", bg: "/service-cards/bg-3.png", illus: "/service-cards/illus-3.svg" },
-  { title: "Embedded Designer",   items: ["Full-time", "Workshopper", "Long-term partner"],                color: "#f5c1b5", bg: "/service-cards/bg-4.png", illus: "/service-cards/illus-2.svg" },
+  { title: "Strategy & Research", items: ["Product strategy", "User research", "UX Audit"],               color: "#b5c7f5", bg: "/service-cards/bg-1.webp" },
+  { title: "Product Design",      items: ["UX/UI design", "Prototypes", "Design systems"],                color: "#a3d8ef", bg: "/service-cards/bg-2.webp", illus: "/service-cards/illus-4.svg" },
+  { title: "Brand & Web",         items: ["Web design", "Framer, Claude development", "Visual identity"],  color: "#d3f1d9", bg: "/service-cards/bg-3.webp", illus: "/service-cards/illus-3.svg" },
+  { title: "Embedded Designer",   items: ["Full-time", "Workshopper", "Long-term partner"],                color: "#f5c1b5", bg: "/service-cards/bg-4.webp", illus: "/service-cards/illus-2.svg" },
 ];
 
 const principles = [
