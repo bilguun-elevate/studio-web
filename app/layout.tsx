@@ -40,7 +40,7 @@ const css = `
     --shadow-card: 0px 106px 30px 0px rgba(38,45,61,0), 0px 68px 27px 0px rgba(38,45,61,0.01), 0px 38px 23px 0px rgba(38,45,61,0.02), 0px 17px 17px 0px rgba(38,45,61,0.03), 0px 4px 9px 0px rgba(38,45,61,0.04);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
   body {
     background-color: var(--bg);
     color: var(--text);
