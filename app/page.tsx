@@ -325,14 +325,18 @@ function Hero() {
         position: "relative", zIndex: 3,
         height: "42vh", width: "100%", flexShrink: 0,
       }}>
-        {/* Hero background image */}
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 0,
-          backgroundImage: "url('/hero-bg.png')",
-          backgroundSize: "cover", backgroundPosition: "center top",
-          opacity: 1, mixBlendMode: "multiply",
-          pointerEvents: "none",
-        }} />
+        {/* Hero background image — real <img> so it qualifies as LCP candidate */}
+        <img
+          src="/hero-bg.png"
+          alt=""
+          fetchPriority="high"
+          style={{
+            position: "absolute", inset: 0, zIndex: 0,
+            width: "100%", height: "100%",
+            objectFit: "cover", objectPosition: "center top",
+            mixBlendMode: "multiply", pointerEvents: "none",
+          }}
+        />
 
         {/* Card 1 — Case Study (pink) */}
         <div style={{ position: "absolute", left: "calc(50% - 370px)", top: 80, zIndex: 1, width: 220 }}>
