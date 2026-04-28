@@ -320,23 +320,25 @@ function Hero() {
         </a>
       </div>
 
+      {/* Hero background image — direct child of section (not inside animated hero-cards)
+          so it is always visible and qualifies as the LCP candidate */}
+      <img
+        src="/hero-bg.png"
+        alt=""
+        fetchPriority="high"
+        style={{
+          position: "absolute", bottom: 0, left: 0,
+          width: "100%", height: "42vh", zIndex: 1,
+          objectFit: "cover", objectPosition: "center top",
+          mixBlendMode: "multiply", pointerEvents: "none",
+        }}
+      />
+
       {/* ── FLOATING CARDS ── */}
       <div className="hero-cards" style={{
         position: "relative", zIndex: 3,
         height: "42vh", width: "100%", flexShrink: 0,
       }}>
-        {/* Hero background image — real <img> so it qualifies as LCP candidate */}
-        <img
-          src="/hero-bg.png"
-          alt=""
-          fetchPriority="high"
-          style={{
-            position: "absolute", inset: 0, zIndex: 0,
-            width: "100%", height: "100%",
-            objectFit: "cover", objectPosition: "center top",
-            mixBlendMode: "multiply", pointerEvents: "none",
-          }}
-        />
 
         {/* Card 1 — Case Study (pink) */}
         <div style={{ position: "absolute", left: "calc(50% - 370px)", top: 80, zIndex: 1, width: 220 }}>
