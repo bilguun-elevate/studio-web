@@ -418,7 +418,7 @@ const logos = [
   { src: "/logos/14.png", alt: "Peak" },
   { src: "/logos/15.png", alt: "Posted" },
   { src: "/logos/16.png", alt: "ProhostAI" },
-  { src: "/logos/17.png", alt: "Шунхлай" },
+  { src: "/logos/17.png", alt: "Shunkhlai" },
   { src: "/logos/18.png", alt: "TDB Securities" },
   { src: "/logos/19.png", alt: "UPoint" },
 ];
@@ -528,7 +528,7 @@ function Projects() {
                   <span style={{
                     fontSize: 10, fontWeight: 600, letterSpacing: "0.16em",
                     textTransform: "uppercase", color: "var(--muted)",
-                  }}>Тун удахгүй</span>
+                  }}>Coming soon</span>
                 </div>
               )}
             </div>

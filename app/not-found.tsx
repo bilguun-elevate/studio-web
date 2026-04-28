@@ -33,7 +33,7 @@ export default function NotFound() {
           color: "var(--text)",
           marginBottom: "clamp(24px,3vw,40px)",
         }}>
-          Хуудас<br />олдсонгүй.
+          Page not<br />found.
         </h1>
 
         <p style={{
@@ -43,7 +43,7 @@ export default function NotFound() {
           marginBottom: "clamp(32px,4vw,48px)",
           maxWidth: 400,
         }}>
-          Таны хайж буй хуудас нүүгдсэн эсвэл байхгүй байна.
+          The page you're looking for has been moved or doesn't exist.
         </p>
 
         <a
@@ -62,7 +62,7 @@ export default function NotFound() {
             letterSpacing: "-0.01em",
           }}
         >
-          Нүүр хуудас руу буцах →
+          Back to home →
         </a>
       </main>
     </>

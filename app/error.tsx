@@ -25,7 +25,7 @@ export default function Error({
         color: "var(--muted)",
         marginBottom: 24,
       }}>
-        Алдаа
+        Error
       </p>
 
       <h1 style={{
@@ -36,7 +36,7 @@ export default function Error({
         color: "var(--text)",
         marginBottom: "clamp(20px,3vw,36px)",
       }}>
-        Алдаа гарлаа.
+        Something went wrong.
       </h1>
 
       <p style={{
@@ -46,7 +46,7 @@ export default function Error({
         marginBottom: "clamp(32px,4vw,48px)",
         maxWidth: 400,
       }}>
-        Ямар нэгэн алдаа гарлаа. Дахин оролдоно уу.
+        An unexpected error occurred. Please try again.
       </p>
 
       <button
@@ -67,7 +67,7 @@ export default function Error({
           fontFamily: "inherit",
         }}
       >
-        Дахин оролдох →
+        Try again →
       </button>
     </main>
   );

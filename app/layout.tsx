@@ -6,15 +6,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://elevatestudio.xyz"),
   title: "Elevate Studio — Product Design Studio",
   description:
-    "AI болон SaaS компаниудад зориулсан бүтээгдэхүүний дизайны студио. 40+ төсөл. Улаанбаатар.",
+    "Product design studio for AI and SaaS companies. 40+ projects. Ulaanbaatar.",
   openGraph: {
     title: "Elevate Studio",
-    description: "AI болон SaaS компаниудад зориулсан бүтээгдэхүүний дизайны студио. 40+ төсөл.",
+    description: "Product design studio for AI and SaaS companies. 40+ projects.",
     url: "https://elevatestudio.xyz",
     siteName: "Elevate Studio",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+    images: [{ url: "/opengraph-image.png", width: 2400, height: 1260 }],
     type: "website",
   },
   twitter: {
@@ -46,6 +47,7 @@ const css = `
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
     line-height: 1.5;
+    overflow-x: hidden;
   }
   a { color: inherit; text-decoration: none; }
   button { font-family: inherit; }
@@ -390,14 +392,13 @@ const css = `
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="mn">
+    <html lang="en">
       <head>
+        <link rel="icon" href="/fav-icon-dark.png" media="(prefers-color-scheme: dark)" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{ __html: css }} />
-        {/* figma-capture */}
-        <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
       </head>
       <body>{children}</body>
     </html>

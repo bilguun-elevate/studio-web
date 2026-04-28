@@ -96,7 +96,7 @@ export default function Nav() {
           <button
             className="menu-btn"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Цэс хаах" : "Цэс нээх"}
+            aria-label={open ? "Close menu" : "Open menu"}
             style={{
               position: "relative", zIndex: 2,
               width: 40, height: 40, borderRadius: 80,
@@ -115,7 +115,7 @@ export default function Nav() {
           <button
             className="menu-close-btn"
             onClick={() => setOpen(false)}
-            aria-label="Цэс хаах"
+            aria-label="Close menu"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>

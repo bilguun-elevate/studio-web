@@ -506,7 +506,7 @@ function LanndyCaseStudy({ project }: { project: Project }) {
                 fontSize: 9, fontWeight: 700, letterSpacing: "0.2em",
                 textTransform: "uppercase", color: "var(--muted)",
               }}>
-                Бэлтгэлийн шатанд
+                In preparation
               </span>
 
               <h2 style={{
@@ -514,7 +514,7 @@ function LanndyCaseStudy({ project }: { project: Project }) {
                 fontWeight: 700, letterSpacing: "-0.035em", lineHeight: 1.15,
                 color: "var(--text)", margin: 0,
               }}>
-                Кейс судалгаа<br />удахгүй нийтлэгдэнэ
+                Case study<br />coming soon
               </h2>
 
               <p style={{
@@ -522,7 +522,7 @@ function LanndyCaseStudy({ project }: { project: Project }) {
                 lineHeight: 1.85, maxWidth: 340,
                 margin: 0,
               }}>
-                Энэхүү бүтээл одоогоор боловсруулагдаж байгаа бөгөөд тун удахгүй дэлгэрэнгүйгээр танилцуулагдана.
+                This project is currently being prepared and will be published in detail soon.
               </p>
 
               <a
@@ -538,7 +538,7 @@ function LanndyCaseStudy({ project }: { project: Project }) {
                   textDecoration: "none", letterSpacing: "-0.01em",
                 }}
               >
-                Уулзалт товлох →
+                Book a meeting →
               </a>
             </div>
           </div>
