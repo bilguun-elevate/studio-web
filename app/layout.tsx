@@ -40,7 +40,7 @@ const css = `
     --shadow-card: 0px 106px 30px 0px rgba(38,45,61,0), 0px 68px 27px 0px rgba(38,45,61,0.01), 0px 38px 23px 0px rgba(38,45,61,0.02), 0px 17px 17px 0px rgba(38,45,61,0.03), 0px 4px 9px 0px rgba(38,45,61,0.04);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
+  html { scroll-behavior: smooth; overflow-x: hidden; scrollbar-gutter: stable; }
   body {
     background-color: var(--bg);
     color: var(--text);
@@ -208,24 +208,26 @@ const css = `
   }
 
   /* ─── MENU OVERLAY ─────────────────────────────────────────────── */
+  /* Desktop: clip-path expand from top-right. Tablet/mobile: opacity fade, no masking. */
   .menu-overlay {
-    position: absolute; top: 0; right: 0; z-index: 1;
-    width: 320px; height: 400px;
+    position: fixed; top: 112px; left: 50%; transform: translateX(-50%) translateY(-10px); z-index: 400;
+    width: 400px; height: auto;
     background: #111110;
     border-radius: 16px;
     pointer-events: none;
-    clip-path: inset(0 0 100% 100% round 16px);
-    transition: clip-path 0.55s cubic-bezier(0.16,1,0.3,1);
+    opacity: 0;
+    transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.16,1,0.3,1);
     display: flex; flex-direction: column;
     overflow: hidden;
   }
   .menu-overlay.open {
-    clip-path: inset(0 0 0 0 round 16px);
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
     pointer-events: all;
   }
   .menu-nav-link {
     display: block;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.2;
@@ -249,17 +251,19 @@ const css = `
     padding: 8px; display: flex; align-items: center; justify-content: center;
     color: inherit;
   }
-  /* Close button hidden on desktop (click-outside closes it) */
-  .menu-close-btn {
-    display: none;
-  }
 
   /* ─── RESPONSIVE ──────────────────────────────────────────────── */
 
-  /* Tablet & below: stacked layouts */
+  /* Tablet & below: stacked layouts + fade-in menu (no clip-path masking) */
   @media (max-width: 1023px) {
     .menu-overlay {
-      width: min(320px, calc(100vw - 40px));
+      top: 112px;
+      left: 20px; right: 20px;
+      width: auto; height: auto;
+      transform: translateY(-10px);
+    }
+    .menu-overlay.open {
+      transform: translateY(0);
     }
     .project-row {
       grid-template-columns: 1fr !important;
@@ -292,6 +296,9 @@ const css = `
 
   /* ─── MOBILE & CASE STUDY RESPONSIVE ─────────────────────────── */
   @media (max-width: 767px) {
+    .menu-nav-link {
+      font-size: 28px !important;
+    }
     .cs-media-grid {
       grid-template-columns: 1fr !important;
     }
@@ -301,37 +308,6 @@ const css = `
     .cs-meta-row {
       gap: 8px !important;
     }
-    /* Full-screen overlay on mobile */
-    .menu-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      width: 100vw; height: 100dvh;
-      border-radius: 0;
-      z-index: 5; /* above .menu-btn (z-index: 2) */
-      clip-path: inset(0 0 100% 100% round 0px);
-    }
-    .menu-overlay.open {
-      clip-path: inset(0 0 0 0 round 0px);
-    }
-    .menu-links {
-      justify-content: center !important;
-      padding: 0 40px !important;
-    }
-    .menu-nav-link {
-      font-size: 32px !important;
-    }
-    /* Show close button on mobile */
-    .menu-close-btn {
-      display: flex;
-      position: absolute;
-      top: 16px; right: 16px;
-      background: none; border: none; cursor: pointer;
-      padding: 10px;
-      color: rgba(245,244,240,0.6);
-      align-items: center; justify-content: center;
-      z-index: 10;
-    }
-    .menu-close-btn:hover { color: rgba(245,244,240,1); }
     .project-row:hover { opacity: 1; }
     .project-card:hover { transform: none; }
     .service-cards {

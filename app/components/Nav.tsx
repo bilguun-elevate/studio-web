@@ -41,28 +41,16 @@ export function ElevateLogo({ color = "#111110" }: { color?: string }) {
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Lock body scroll when menu is open; compensate scrollbar width to prevent layout shift
-  useEffect(() => {
-    if (open) {
-      const sw = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflowY = "hidden";
-      document.body.style.paddingRight = sw ? `${sw}px` : "";
-    } else {
-      document.body.style.overflowY = "";
-      document.body.style.paddingRight = "";
-    }
-    return () => {
-      document.body.style.overflowY = "";
-      document.body.style.paddingRight = "";
-    };
-  }, [open]);
-
-  // Click-outside to close (desktop only — on mobile the overlay is full-screen)
+  // Close when clicking outside both the hamburger button and the overlay
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+      if (
+        wrapRef.current && !wrapRef.current.contains(e.target as Node) &&
+        overlayRef.current && !overlayRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -102,7 +90,7 @@ export default function Nav() {
         <a href="/" aria-label="Elevate Studio" style={{ lineHeight: 0 }}>
           <ElevateLogo color="#0f172a" />
         </a>
-        <div ref={wrapRef} style={{ position: "relative" }}>
+        <div ref={wrapRef}>
           <button
             className="menu-btn"
             onClick={() => setOpen((v) => !v)}
@@ -119,64 +107,55 @@ export default function Nav() {
               <path d="M2.5 10H17.5M2.5 5H17.5M2.5 15H17.5" stroke="white" strokeOpacity="0.9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
+        </div>
+      </div>
 
-        <div className={`menu-overlay${open ? " open" : ""}`}>
-          {/* Close button — visible on mobile only via CSS */}
-          <button
-            className="menu-close-btn"
-            onClick={() => setOpen(false)}
-            aria-label="Close menu"
-          >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          </button>
+      {/* Overlay is a direct child of <nav> — outside the backdrop-filter pill,
+          so position:absolute is relative to the full-width nav, not the pill. */}
+      <div ref={overlayRef} className={`menu-overlay${open ? " open" : ""}`}>
+        <div className="menu-links" style={{
+          flex: 1, display: "flex", flexDirection: "column", justifyContent: "center",
+          padding: "32px 28px 24px", gap: 6,
+        }}>
+          {links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="menu-nav-link"
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
 
-          <div className="menu-links" style={{
-            flex: 1, display: "flex", flexDirection: "column", justifyContent: "center",
-            padding: "32px 28px 24px", gap: 6,
+        <div style={{
+          padding: "20px 28px 28px",
+          borderTop: "1px solid rgba(245,244,240,0.1)",
+        }}>
+          <p style={{
+            fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase",
+            color: "rgba(245,244,240,0.3)", marginBottom: 12, fontWeight: 500,
           }}>
-            {links.map((l) => (
+            Links
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+            {[
+              { label: "LinkedIn", href: "https://linkedin.com" },
+              { label: "Instagram", href: "https://instagram.com" },
+            ].map((r) => (
               <a
-                key={l.label}
-                href={l.href}
-                className="menu-nav-link"
-                onClick={() => setOpen(false)}
+                key={r.label}
+                href={r.href}
+                className="menu-resource-link"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {l.label}
+                {r.label}
               </a>
             ))}
           </div>
-
-          <div style={{
-            padding: "20px 28px 28px",
-            borderTop: "1px solid rgba(245,244,240,0.1)",
-          }}>
-            <p style={{
-              fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase",
-              color: "rgba(245,244,240,0.3)", marginBottom: 12, fontWeight: 500,
-            }}>
-              Links
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              {[
-                { label: "LinkedIn", href: "https://linkedin.com" },
-                { label: "Instagram", href: "https://instagram.com" },
-              ].map((r) => (
-                <a
-                  key={r.label}
-                  href={r.href}
-                  className="menu-resource-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {r.label}
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
-      </div>
       </div>
     </nav>
   );
