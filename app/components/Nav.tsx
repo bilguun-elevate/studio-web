@@ -42,10 +42,20 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  // Lock body scroll when menu is open (important on mobile full-screen overlay)
+  // Lock body scroll when menu is open; compensate scrollbar width to prevent layout shift
   useEffect(() => {
-    document.body.style.overflowY = open ? "scroll" : "";
-    return () => { document.body.style.overflowY = ""; };
+    if (open) {
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflowY = "hidden";
+      document.body.style.paddingRight = sw ? `${sw}px` : "";
+    } else {
+      document.body.style.overflowY = "";
+      document.body.style.paddingRight = "";
+    }
+    return () => {
+      document.body.style.overflowY = "";
+      document.body.style.paddingRight = "";
+    };
   }, [open]);
 
   // Click-outside to close (desktop only — on mobile the overlay is full-screen)
