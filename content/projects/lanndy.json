@@ -5,13 +5,20 @@
   "description": "CS2 server rental platform.",
   "cta": "See work →",
   "tagline": "CS2 server rental platform.",
-  "cover": "/projects/lanndy/cover.png",
+  "cover": "/projects/lanndy/cover.webp",
   "year": "2024",
   "scope": ["Brand", "Web Design"],
   "overview": "Lanndy is the first platform in Mongolia to offer CS2 server rental services. The goal of the project was to create a web experience that delivers server services to players in a clear, reliable, and fast manner.",
   "upcoming": false,
   "media": [
-    { "src": "/projects/lanndy/01.png", "alt": "Lanndy — 1", "span": "half" },
-    { "src": "/projects/lanndy/02.png", "alt": "Lanndy — 2", "span": "half" }
+    { "src": "/projects/lanndy/01.webp", "alt": "Lanndy — Brand mark", "span": "half" },
+    { "src": "/projects/lanndy/02.webp", "alt": "Lanndy — Logo", "span": "half" },
+    { "src": "/projects/lanndy/03.webp", "alt": "Lanndy — Website", "span": "full" },
+    { "src": "/projects/lanndy/04.webp", "alt": "Lanndy — Mobile & Dashboard", "span": "full" },
+    { "src": "/projects/lanndy/05.webp", "alt": "Lanndy — Features", "span": "full" },
+    { "src": "/projects/lanndy/06.webp", "alt": "Lanndy — App screens", "span": "full" },
+    { "src": "/projects/lanndy/07.webp", "alt": "Lanndy — FAQ & Footer", "span": "full" },
+    { "src": "/projects/lanndy/08.webp", "alt": "Lanndy — Server settings", "span": "full" },
+    { "src": "/projects/lanndy/09.webp", "alt": "Lanndy — Device mockups", "span": "full" }
   ]
 }
