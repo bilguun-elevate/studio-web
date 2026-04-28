@@ -441,7 +441,7 @@ function TrustedBy() {
               <ET id="trusted-sub">Over 40 projects implemented across various fields, with 6 years of experience.</ET>
             </p>
           </div>
-          <a href="#contact" className="cta-btn" style={{
+          <a href="https://cal.com/elevatestd/30min" target="_blank" rel="noopener noreferrer" className="cta-btn" style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             height: 48, padding: "0 24px", borderRadius: 100,
             background: "linear-gradient(180deg, #000000 0%, #424242 100%)",
@@ -560,7 +560,7 @@ function Services() {
               <ET id="services-sub">Strategy development to market launch.</ET>
             </p>
           </div>
-          <a href="#contact" className="cta-btn" style={{
+          <a href="https://cal.com/elevatestd/30min" target="_blank" rel="noopener noreferrer" className="cta-btn" style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             height: 48, padding: "0 24px", borderRadius: 100,
             background: "linear-gradient(180deg, #000000 0%, #424242 100%)",
@@ -862,7 +862,7 @@ function Footer() {
 
           {/* See Introduction */}
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "flex-end" }}>
-            <a href="#" className="footer-link" style={{
+            <a href="https://www.figma.com/proto/Y1zgqF19fb7VQ2ATdomYUP/Elevate-studio---Introduction?node-id=574-36101&viewport=293%2C302%2C0.19&t=Wfomtf1e2tMWw8qE-1&scaling=contain&content-scaling=fixed&page-id=574%3A36100" target="_blank" rel="noopener noreferrer" className="footer-link" style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               fontSize: 15, fontWeight: 500, color: "#f5f4f0",
             }}>
