@@ -340,20 +340,22 @@ function Hero() {
       }}>
 
         {/* Card 1 — Case Study (pink) */}
-        <div style={{ position: "absolute", left: "calc(50% - 370px)", top: 80, zIndex: 1, width: 220 }}>
+        <a href="/projects/lanndy" style={{ position: "absolute", left: "calc(50% - 370px)", top: 80, zIndex: 1, width: 220, textDecoration: "none", display: "block" }}>
           <div className="hero-card" style={{ "--card-rotate": "2.41deg" } as React.CSSProperties}>
             <Tape />
             <div style={{ background: "#dbb9b9", borderRadius: 0, padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ background: "rgba(180,150,150,0.45)", borderRadius: 0, minHeight: 110 }} />
+              <div style={{ position: "relative", borderRadius: 0, minHeight: 110, overflow: "hidden" }}>
+                <Image src="/projects/lanndy/cover.webp" alt="Lanndy case study" fill style={{ objectFit: "cover" }} sizes="220px" />
+              </div>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 500, color: "rgba(15,23,42,0.9)", letterSpacing: "0.04em", lineHeight: 1.5 }}>
                 New Case Study Published!
               </p>
             </div>
           </div>
-        </div>
+        </a>
 
         {/* Card 2 — Booking (yellow) */}
-        <div style={{ position: "absolute", left: "calc(50% - 155px)", top: 60, zIndex: 2, width: 240 }}>
+        <a href="https://cal.com/elevatestd/30min" target="_blank" rel="noopener noreferrer" style={{ position: "absolute", left: "calc(50% - 155px)", top: 60, zIndex: 2, width: 240, textDecoration: "none", display: "block" }}>
           <div className="hero-card" style={{ "--card-rotate": "-0.18deg" } as React.CSSProperties}>
             <Tape />
             <div style={{ background: "#fbe58c", borderRadius: 0, padding: "18px 20px 22px", display: "flex", flexDirection: "column", gap: 14, height: 150, overflow: "hidden" }}>
@@ -363,10 +365,10 @@ function Hero() {
               </p>
             </div>
           </div>
-        </div>
+        </a>
 
         {/* Card 3 — Testimonial (blue/purple) */}
-        <div style={{ position: "absolute", left: "calc(50% + 80px)", top: 88, zIndex: 3, width: 260 }}>
+        <a href="https://cal.com/elevatestd/30min" target="_blank" rel="noopener noreferrer" style={{ position: "absolute", left: "calc(50% + 80px)", top: 88, zIndex: 3, width: 260, textDecoration: "none", display: "block" }}>
           <div className="hero-card" style={{ "--card-rotate": "-2.82deg" } as React.CSSProperties}>
             <Pin />
             <div style={{ background: "#a1b9f3", borderRadius: 0, padding: "18px 20px 20px", display: "flex", flexDirection: "column", gap: 10 }}>
@@ -379,7 +381,7 @@ function Hero() {
               </p>
             </div>
           </div>
-        </div>
+        </a>
 
       </div>
     </section>
@@ -851,9 +853,8 @@ function Footer() {
             <p style={{ fontSize: 11, color: "rgba(245,244,240,0.4)", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 500 }}>Social</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {[
-                { label: "Behance", href: "https://behance.net" },
-                { label: "Instagram", href: "https://instagram.com" },
-                { label: "X", href: "https://x.com" },
+                { label: "Instagram", href: "https://www.instagram.com/elevatestd/" },
+                { label: "LinkedIn", href: "https://www.linkedin.com/in/bilguun-munkhbat" },
               ].map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="footer-link" style={{ fontSize: 15, fontWeight: 600, color: "#f5f4f0" }}>{s.label}</a>
               ))}
