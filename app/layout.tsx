@@ -211,7 +211,7 @@ const css = `
   /* Desktop: clip-path expand from top-right. Tablet/mobile: opacity fade, no masking. */
   .menu-overlay {
     position: fixed; top: 112px; left: 50%; transform: translateX(-50%) translateY(-10px); z-index: 400;
-    width: 400px; height: auto;
+    width: 400px; max-width: 400px; height: auto;
     background: #111110;
     border-radius: 16px;
     pointer-events: none;
@@ -258,12 +258,13 @@ const css = `
   @media (max-width: 1023px) {
     .menu-overlay {
       top: 112px;
-      left: 20px; right: 20px;
-      width: auto; height: auto;
-      transform: translateY(-10px);
+      left: 50%; right: auto;
+      width: min(400px, calc(100vw - 40px));
+      height: auto;
+      transform: translateX(-50%) translateY(-10px);
     }
     .menu-overlay.open {
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
     }
     .project-row {
       grid-template-columns: 1fr !important;
