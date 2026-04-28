@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, createContext, useContext } from "react";
+import Image from "next/image";
 import Nav, { ElevateLogo } from "./components/Nav";
 import { projects } from "./data/projects";
 
@@ -95,7 +96,7 @@ function EI({ id, src, alt, style }: { id: string; src: string; alt: string; sty
   const { editing, get, set } = useContext(EditCtx);
   const val = get(id, src);
   const inp = useRef<HTMLInputElement>(null);
-  if (!editing) return <img src={val} alt={alt} style={style} />;
+  if (!editing) return <img src={val} alt={alt} style={style} loading="lazy" />;
   return (
     <div style={{ position: "relative", cursor: "pointer" }} onClick={() => inp.current?.click()}>
       <img src={val} alt={alt} style={{ ...style, opacity: 0.75 }} />
@@ -320,19 +321,17 @@ function Hero() {
         </a>
       </div>
 
-      {/* Hero background image — direct child of section (not inside animated hero-cards)
-          so it is always visible and qualifies as the LCP candidate */}
-      <img
-        src="/hero-bg.png"
-        alt=""
-        fetchPriority="high"
-        style={{
-          position: "absolute", bottom: 0, left: 0,
-          width: "100%", height: "42vh", zIndex: 1,
-          objectFit: "cover", objectPosition: "center top",
-          mixBlendMode: "multiply", pointerEvents: "none",
-        }}
-      />
+      {/* Hero background image — next/image for automatic WebP optimisation + preload */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "42vh", zIndex: 1, pointerEvents: "none" }}>
+        <Image
+          src="/hero-bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center top", mixBlendMode: "multiply" }}
+        />
+      </div>
 
       {/* ── FLOATING CARDS ── */}
       <div className="hero-cards" style={{
@@ -457,7 +456,7 @@ function TrustedBy() {
         <div className="logos-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", columnGap: 16, rowGap: 20 }}>
           {logos.map((logo) => (
             <div key={logo.alt} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <img src={logo.src} alt={logo.alt} style={{ width: "100%", height: "auto", opacity: 0.85, display: "block" }} />
+              <img src={logo.src} alt={logo.alt} loading="lazy" style={{ width: "100%", height: "auto", opacity: 0.85, display: "block" }} />
             </div>
           ))}
         </div>
@@ -591,7 +590,7 @@ function Services() {
               }} />
               {/* card 1 sticky-notes illustration */}
               {i === 0 && (
-                <img src="/service-illustration.svg" alt="" aria-hidden="true" className="service-illus service-illus-abs"
+                <img src="/service-illustration.svg" alt="" aria-hidden="true" loading="lazy" className="service-illus service-illus-abs"
                   style={{ position: "absolute", bottom: 0, left: 0, right: 0,
                     width: "100%", height: "auto", display: "block", pointerEvents: "none" }} />
               )}
@@ -613,7 +612,7 @@ function Services() {
                   backdropFilter: i >= 2 ? "blur(7px)" : undefined,
                   overflow: "hidden",
                 }}>
-                  <img src={(s as typeof s & { illus: string }).illus} alt="" aria-hidden="true"
+                  <img src={(s as typeof s & { illus: string }).illus} alt="" aria-hidden="true" loading="lazy"
                     style={{ display: "block", width: "100%", height: "auto", pointerEvents: "none" }}
                   />
                 </div>
