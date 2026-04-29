@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -207,7 +208,7 @@ const css = `
     box-shadow: rgba(255,255,255,0.87) 0px 0.5px 0px inset, rgba(0,0,0,0.28) 0px 6px 12px !important;
   }
 
-  /* ─── MENU OVERLAY ─────────────────────────────────────────────── */
+  /* ─── MENU OVERLAY ──��──────────────────────────────────────────── */
   /* Desktop: clip-path expand from top-right. Tablet/mobile: opacity fade, no masking. */
   .menu-overlay {
     position: fixed; top: 112px; left: 50%; transform: translateX(-50%) translateY(-10px); z-index: 400;
@@ -377,7 +378,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{ __html: css }} />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
